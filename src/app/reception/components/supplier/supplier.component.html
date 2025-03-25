@@ -1,0 +1,108 @@
+<div class="supplier-container">
+
+
+  <div class="actions">
+    <button mat-raised-button color="primary" (click)="openAddDialog()">
+      Add Supplier
+    </button>
+  </div>
+
+  <table mat-table [dataSource]="suppliers" class="mat-elevation-z8">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let supplier"> {{ supplier.id }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let supplier"> {{ supplier.name }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lastname">
+      <th mat-header-cell *matHeaderCellDef> Lastname </th>
+      <td mat-cell *matCellDef="let supplier"> {{ supplier.lastname }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="phone">
+      <th mat-header-cell *matHeaderCellDef> Phone </th>
+      <td mat-cell *matCellDef="let supplier"> {{ supplier.phone }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let supplier"> {{ supplier.email }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="address">
+      <th mat-header-cell *matHeaderCellDef> Address </th>
+      <td mat-cell *matCellDef="let supplier"> {{ supplier.address }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="suppliertype">
+      <th mat-header-cell *matHeaderCellDef> Supplier Type </th>
+      <td mat-cell *matCellDef="let supplier"> {{ supplier.suppliertype }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let supplier">
+        <button mat-icon-button color="primary" (click)="openEditDialog(supplier)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteSupplier(supplier)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+
+
+
+<ng-template #dialogTemplate>
+  <h2 mat-dialog-title>{{ dialogTitle }}</h2>
+  <form [formGroup]="supplierForm">
+    <mat-form-field>
+      <mat-label>Nom</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Prénom</mat-label>
+      <input matInput formControlName="lastname" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Téléphone</mat-label>
+      <input matInput formControlName="phone" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Adresse</mat-label>
+      <input matInput formControlName="address" />
+    </mat-form-field>
+
+    <!-- Champ de sélection pour supplierTypes -->
+    <mat-form-field>
+      <mat-label>Type de fournisseur</mat-label>
+      <mat-select formControlName="suppliertype">
+        <mat-option *ngFor="let type of supplierTypes" [value]="type.id">
+          {{ type.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div mat-dialog-actions>
+      <button mat-button class="danger" (click)="closeDialog()">Annuler</button>
+      <button mat-button class="primary" (click)="save()">Enregistrer</button>
+    </div>
+  </form>
+</ng-template>

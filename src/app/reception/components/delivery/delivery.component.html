@@ -1,0 +1,99 @@
+<div>
+  <button mat-raised-button color="primary" (click)="openDialog()">Ajouter une réception</button>
+</div>
+
+<table mat-table [dataSource]="deliveries" class="mat-elevation-z8">
+  <ng-container matColumnDef="receiptNumber">
+    <th mat-header-cell *matHeaderCellDef>N° Réception</th>
+    <td mat-cell *matCellDef="let delivery">{{ delivery.receiptNumber }}</td>
+  </ng-container>
+  <ng-container matColumnDef="fournisseur">
+    <th mat-header-cell *matHeaderCellDef>Fournisseur</th>
+    <td mat-cell *matCellDef="let delivery">{{ delivery.fournisseur }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="lotNumber">
+    <th mat-header-cell *matHeaderCellDef>N° Lot</th>
+    <td mat-cell *matCellDef="let delivery">{{ delivery.lotNumber }}</td>
+  </ng-container>
+
+
+
+  <ng-container matColumnDef="deliveryDate">
+    <th mat-header-cell *matHeaderCellDef>Date</th>
+    <td mat-cell *matCellDef="let delivery">{{ delivery.deliveryDate | date :'dd/MM/aaaa'}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="oliveQuantity">
+    <th mat-header-cell *matHeaderCellDef>Quantité Olive (kg)</th>
+    <td mat-cell *matCellDef="let delivery">{{ delivery.oliveQuantity }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef>Statut</th>
+    <td mat-cell *matCellDef="let delivery">{{ delivery.status }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let delivery">
+      <button mat-icon-button color="primary" (click)="openDialog(delivery)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="deleteDelivery(delivery.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<!--  MatDialog avec TemplateRef -->
+<ng-template #dialogTemplate>
+  <h1 mat-dialog-title>{{ currentDelivery?.id ? 'Modifier' : 'Ajouter' }} une réception</h1>
+  <div mat-dialog-content>
+    <form [formGroup]="deliveryForm">
+      <mat-form-field appearance="outline" fullWidth>
+        <mat-label>N° Réception</mat-label>
+        <input matInput formControlName="receiptNumber">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" fullWidth>
+        <mat-label>N° Lot</mat-label>
+        <input matInput formControlName="lotNumber">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" fullWidth>
+        <mat-label>Fournisseur</mat-label>
+        <input matInput formControlName="fournisseur">
+      </mat-form-field>
+
+
+
+      <mat-form-field appearance="outline" fullWidth>
+        <mat-label>Date</mat-label>
+        <input matInput type="date" formControlName="deliveryDate">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" fullWidth>
+        <mat-label>Quantité Olive (kg)</mat-label>
+        <input matInput type="number" formControlName="oliveQuantity">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" fullWidth>
+        <mat-label>Statut</mat-label>
+        <mat-select formControlName="status">
+          <mat-option value="En attente">En attente</mat-option>
+          <mat-option value="Validée">Validée</mat-option>
+          <mat-option value="Rejetée">Rejetée</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button (click)="dialog.closeAll()">Annuler</button>
+    <button mat-raised-button color="primary" [disabled]="deliveryForm.invalid" (click)="onSubmit()">Valider</button>
+  </div>
+</ng-template>
