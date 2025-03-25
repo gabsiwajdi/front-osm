@@ -1,0 +1,58 @@
+.tab-content {
+  padding: 20px;
+}
+
+mat-tab-group {
+  margin: 20px;
+}
+.tab-content {
+  padding: 20px;
+}
+
+.form-field {
+  margin-bottom: 15px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+small {
+  color: red;
+  font-size: 12px;
+}
+
+.type-selector {
+  margin-bottom: 20px;
+}
+
+.table-container {
+  margin-top: 20px;
+}
+
+.mat-table {
+  width: 100%;
+}
+
+.form-field {
+  margin-bottom: 15px;
+}
+
+button {
+  margin-top: 10px;
+}

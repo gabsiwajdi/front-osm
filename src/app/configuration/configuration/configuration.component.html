@@ -1,0 +1,154 @@
+
+<mat-tab-group>
+  <!-- Onglet 1 : Info Moulain -->
+  <mat-tab label="Info Moulain">
+    <div class="tab-content">
+
+      <!-- Formulaire -->
+      <form [formGroup]="infoMoulainForm" >
+        <div class="form-field">
+          <label for="libelle">Libellé :</label>
+          <input id="libelle" type="text" formControlName="libelle" placeholder="Entrez le libellé">
+          <small *ngIf="infoMoulainForm.get('libelle')?.invalid && infoMoulainForm.get('libelle')?.touched">
+            Le libellé est obligatoire.
+          </small>
+        </div>
+
+        <div class="form-field">
+          <label for="tel1">Téléphone 1 :</label>
+          <input id="tel1" type="text" formControlName="tel1" placeholder="Entrez le téléphone 1">
+          <small *ngIf="infoMoulainForm.get('tel1')?.invalid && infoMoulainForm.get('tel1')?.touched">
+            Entrez un numéro de téléphone valide (10 chiffres).
+          </small>
+        </div>
+
+        <div class="form-field">
+          <label for="tel2">Téléphone 2 :</label>
+          <input id="tel2" type="text" formControlName="tel2" placeholder="Entrez le téléphone 2">
+        </div>
+
+        <div class="form-field">
+          <label for="mail">Email :</label>
+          <input id="mail" type="email" formControlName="mail" placeholder="Entrez l'email">
+          <small *ngIf="infoMoulainForm.get('mail')?.invalid && infoMoulainForm.get('mail')?.touched">
+            Entrez une adresse email valide.
+          </small>
+        </div>
+
+        <div class="form-field">
+          <label for="adresse">Adresse :</label>
+          <textarea id="adresse" formControlName="adresse" placeholder="Entrez l'adresse"></textarea>
+          <small *ngIf="infoMoulainForm.get('adresse')?.invalid && infoMoulainForm.get('adresse')?.touched">
+            L'adresse est obligatoire.
+          </small>
+        </div>
+
+        <div class="form-field">
+          <label for="logo">Logo :</label>
+          <input id="logo" type="file" (change)="onFileChange($event)">
+        </div>
+
+        <div class="form-field">
+          <label for="rne">RNE :</label>
+          <input id="rne" type="text" formControlName="rne" placeholder="Entrez le RNE">
+          <small *ngIf="infoMoulainForm.get('rne')?.invalid && infoMoulainForm.get('rne')?.touched">
+            Le RNE est obligatoire.
+          </small>
+        </div>
+
+        <div class="form-field">
+          <label for="patente">Patente :</label>
+          <input id="patente" type="text" formControlName="patente" placeholder="Entrez la patente">
+          <small *ngIf="infoMoulainForm.get('patente')?.invalid && infoMoulainForm.get('patente')?.touched">
+            La patente est obligatoire.
+          </small>
+        </div>
+
+        <!-- Bouton de soumission -->
+        <button type="submit" [disabled]="infoMoulainForm.invalid" (click)="onSubmit()">Soumettre</button>
+      </form>
+    </div>
+  </mat-tab>
+
+  <!-- Autres onglets -->
+  <mat-tab label="Générique Type">
+  <div class="tab-content">
+    <h3>Configuration Générique Type</h3>
+
+    <!-- Sélection du type -->
+    <div class="type-selector">
+      <label for="type">Sélectionnez un type :</label>
+      <mat-select id="type" [(value)]="selectedType" (selectionChange)="onTypeChange($event.value)">
+        <mat-option *ngFor="let type of types" [value]="type">{{ type }}</mat-option>
+      </mat-select>
+    </div>
+
+    <!-- Tableau dynamique -->
+    <div class="table-container">
+      <h4>Liste des {{ selectedType || 'éléments' }}</h4>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <!-- Colonnes -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>ID</th>
+          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Nom</th>
+          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef>Description</th>
+          <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="createdAt">
+          <th mat-header-cell *matHeaderCellDef>Créé le</th>
+          <td mat-cell *matCellDef="let element">{{ element.createdAt | date }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="updatedAt">
+          <th mat-header-cell *matHeaderCellDef>Mis à jour le</th>
+          <td mat-cell *matCellDef="let element">{{ element.updatedAt | date }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-button color="warn" (click)="deleteItem(element.id)">Supprimer</button>
+          </td>
+        </ng-container>
+
+        <!-- Lignes -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+
+    <!-- Formulaire d'ajout -->
+    <div class="add-form">
+      <h4>Ajouter un {{ selectedType || 'élément' }}</h4>
+      <form [formGroup]="addForm" >
+        <div class="form-field">
+          <label for="name">Nom :</label>
+          <input id="name" type="text" formControlName="name" placeholder="Entrez le nom">
+        </div>
+
+        <div class="form-field">
+          <label for="description">Description :</label>
+          <textarea id="description" formControlName="description" placeholder="Entrez la description"></textarea>
+        </div>
+
+        <button type="submit" [disabled]="addForm.invalid || !selectedType" (click)="onSubmitType()">Ajouter</button>
+      </form>
+    </div>
+  </div>
+</mat-tab>
+  <mat-tab label="Gestion Règle Contrôle Qualité">
+    <div class="tab-content">
+      <h3>Configuration Gestion Règle Contrôle Qualité</h3>
+      <p>Contenu pour la configuration de Gestion Règle Contrôle Qualité.</p>
+    </div>
+  </mat-tab>
+</mat-tab-group>
