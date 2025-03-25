@@ -5,6 +5,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './demo/layout/admin';
 import { EmptyComponent } from './demo/layout/empty';
 import {receptionRoutes} from "./reception/reception.routes";
+import { ConfigurationComponent } from './configuration/configuration/configuration.component';
+import { ProductionComponent } from './production/production/production.component';
+import { productionRoutes } from './production/production.routes';
 
 const routes: Routes = [
   {
@@ -30,7 +33,15 @@ const routes: Routes = [
       },
       {
         path: 'reception',
-        children: receptionRoutes // 🔥 Ajout des routes ici
+        children: receptionRoutes
+      },
+      {
+        path: 'configuration',
+        component:ConfigurationComponent
+      },
+      {
+        path: 'production',
+        children:productionRoutes
       }
     ]
   },

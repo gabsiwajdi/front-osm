@@ -42,7 +42,7 @@ export const menus: Navigation[] = [
       },
       {
         id: 'qaulityControl',
-        title: 'Géstion Controle Qualité',
+        title: 'Géstion Controle Qualité Olivie',
         type: 'item',
         classes: 'nav-item',
         url: '/reception/qualitycontrol',
@@ -62,7 +62,7 @@ export const menus: Navigation[] = [
         title: 'Géstion Production',
         type: 'item',
         classes: 'nav-item',
-        url: '/reception/supplier',
+        url: '/production',
         icon: '#custom-status-up'
       },
       {
@@ -70,7 +70,7 @@ export const menus: Navigation[] = [
         title: 'Géstion Stockage',
         type: 'item',
         classes: 'nav-item',
-        url: '/reception/delivery',
+        url: '/production/stockage',
         icon: '#custom-status-up'
       },
       {
@@ -83,6 +83,26 @@ export const menus: Navigation[] = [
       }
     ]
   },
+
+  {
+    id: 'config',
+    title: 'Paramétre',
+    type: 'group',
+    icon: 'icon-navigation',
+    children: [
+      {
+        id: 'infomoulain',
+        title: 'Configuration',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/configuration',
+        icon: '#custom-status-up'
+      },
+
+    ]
+  },
+
+
 
   {
     id: 'configuration',
@@ -110,7 +130,7 @@ export const menus: Navigation[] = [
           },
           {
             id: 'qualityControlRuleManagement',
-            title: 'Quality Control Rule Management',
+            title: 'Gestion règles Contrôle qualité ',
             type: 'item',
             url: '/:'
           },
@@ -148,8 +168,5 @@ export const menus: Navigation[] = [
       }
     ]
   },
-
-
-
 
 ];
