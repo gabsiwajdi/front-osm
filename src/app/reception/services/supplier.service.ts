@@ -3,6 +3,7 @@ import {Supplier} from "../models/supplier";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {Observable,throwError} from "rxjs";
 import { catchError } from 'rxjs/operators';
+import { BaseType } from '../models/baseType';
 
 
 
@@ -10,7 +11,7 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class SupplierService {
- private baseUrl: string ='/api/production/suppliers'
+ private baseUrl: string ='http://localhost:8080/api/production/suppliers'
 
   constructor(private http: HttpClient) { }
 
@@ -41,5 +42,9 @@ export class SupplierService {
     }
     console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
+  }
+
+  getAllTypes(): Observable<Supplier[]> {
+    return this.http.get<Supplier[]>(`${this.baseUrl}/fetchAll`);
   }
 }

@@ -7,7 +7,7 @@ import {BaseType} from "../models/baseType";
   providedIn: 'root'
 })
 export class GenericTypeService {
-  private baseUrl = '/api/production/types';
+  private baseUrl = 'http://localhost:8080/api/production/types';
 
   constructor(private http :HttpClient) { }
 

@@ -1,3 +1,5 @@
+import { BaseType } from './baseType';
+
 export interface Supplier {
   id?: number;
   name: string;
@@ -5,7 +7,7 @@ export interface Supplier {
   phone: string;
   email?: string;
   address: string;
-  suppliertype:string;
+  suppliertype:BaseType;
 }
 
 

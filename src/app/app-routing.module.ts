@@ -6,8 +6,7 @@ import { AdminComponent } from './demo/layout/admin';
 import { EmptyComponent } from './demo/layout/empty';
 import {receptionRoutes} from "./reception/reception.routes";
 import { ConfigurationComponent } from './configuration/configuration/configuration.component';
-import { ProductionComponent } from './production/production/production.component';
-import { productionRoutes } from './production/production.routes';
+ import { productionRoutes } from './production/production.routes';
 
 const routes: Routes = [
   {
