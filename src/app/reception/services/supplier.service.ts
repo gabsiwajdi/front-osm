@@ -11,7 +11,7 @@ import { BaseType } from '../models/baseType';
   providedIn: 'root'
 })
 export class SupplierService {
- private baseUrl: string ='http://localhost:8080/api/production/suppliers'
+ private baseUrl: string ='http://localhost:8083/api/production/suppliers'
 
   constructor(private http: HttpClient) { }
 

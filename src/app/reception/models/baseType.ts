@@ -1,5 +1,5 @@
 export interface BaseType {
-  type: string;         // This should match the discriminator value (e.g., "region")
+  type: string;
   id?: number;
   name: string;
   description: string;
