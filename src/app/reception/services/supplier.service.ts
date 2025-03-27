@@ -18,9 +18,7 @@ export class SupplierService {
 
   // Add a new supplier
   addSupplier(supplier: Supplier): Observable<Supplier> {
-    return this.http.post<Supplier>(`${this.baseUrl}`, supplier).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.post<Supplier>(this.baseUrl, supplier);
   }
 
   updateSupplier(supplier: Supplier): Observable<Supplier> {

@@ -7,5 +7,6 @@ import { provideHttpClient } from '@angular/common/http';
 
 
 bootstrapApplication(AppComponent, {
-  providers: [importProvidersFrom(BrowserModule, AppRoutingModule), provideAnimations(),provideHttpClient()]
+  providers: [importProvidersFrom(BrowserModule, AppRoutingModule), provideAnimations(),provideHttpClient(),
+    ]
 }).catch((err) => console.error(err));

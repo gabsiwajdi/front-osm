@@ -1,4 +1,4 @@
-import { Component, ViewChild, TemplateRef } from '@angular/core';
+import { Component, ViewChild, TemplateRef, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -17,6 +17,9 @@ import { GenericTypeService } from '../../services/generic-type.service';
 import { BaseType } from '../../models/baseType';
 import { MatOption, MatSelect } from '@angular/material/select';
 
+
+
+
 @Component({
   selector: 'app-supplier',
   imports: [
@@ -29,7 +32,8 @@ import { MatOption, MatSelect } from '@angular/material/select';
     MatDialogModule,
     ReactiveFormsModule,
     MatSelect,
-    MatOption
+    MatOption,
+
   ],
   standalone: true,
   templateUrl: './supplier.component.html',
@@ -48,7 +52,7 @@ export class SupplierComponent {
     private fb: FormBuilder,
     public dialog: MatDialog,
     private supplierService: SupplierService,
-    private genericService: GenericTypeService
+    private genericService: GenericTypeService,
   ) {
     this.supplierForm = this.fb.group({
       name: ['', Validators.required],
@@ -66,15 +70,13 @@ export class SupplierComponent {
   }
 
   openEditDialog(supplier: Supplier): void {
-    // Préparer le formulaire pour la modification
-    this.supplierForm.setValue({
-      id: supplier.id,
-      name: supplier.name,
-      lastname: supplier.lastname,
-      phone: supplier.phone,
-      email: supplier.email || '',
-      address: supplier.address,
-      suppliertype: supplier.suppliertype || ''
+    this.supplierForm = this.fb.group({
+      name: ['', Validators.required],
+      lastname: ['', Validators.required],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      email: ['', [Validators.required, Validators.email]],
+      address: ['', Validators.required],
+      suppliertypeId: ['', Validators.required]
     });
     this.dialogTitle = 'Modifier le fournisseur';
     this.currentSupplier = supplier;
@@ -146,49 +148,26 @@ export class SupplierComponent {
     });
   }
 
-  save(): void {
-    if (this.supplierForm.valid) {
-      const formValue = this.supplierForm.value;
 
-      if (this.currentSupplier) {
-        // Mode édition : Mettre à jour le fournisseur existant
-        // this.updateSupplier(formValue);
-      } else {
-        // Mode ajout : Ajouter un nouveau fournisseur
-        this.addNewSupplier(formValue);
-      }
-    } else {
-      console.error('Le formulaire est invalide.');
-    }
-  }
 
   /**
    * Ajoute un nouveau fournisseur via le service.
    * @param supplierData - Les données du fournisseur à ajouter.
    */
-  addNewSupplier(supplierData: Supplier): void {
-    this.supplierService.addSupplier(supplierData).subscribe({
-      next: (newSupplier) => {
-        this.suppliers.push(newSupplier);
-        this.closeDialog();
-        Swal.fire({
-          title: 'Succès !',
-          text: 'Le fournisseur a été ajouté avec succès.',
-          icon: 'success',
-          confirmButtonText: 'OK'
-        });
-        console.log('Fournisseur ajouté avec succès :', newSupplier);
-      },
-      error: (err) => {
-        console.error("Erreur lors de l'ajout du fournisseur :", err);
-        Swal.fire({
-          title: 'Erreur !',
-          text: "Une erreur est survenue lors de l'ajout du fournisseur.",
-          icon: 'error',
-          confirmButtonText: 'OK'
-        });
-      }
-    });
+  addSupplier() {
+    if (this.supplierForm.valid) {
+      const newSupplier: Supplier = this.supplierForm.value;
+      this.supplierService.addSupplier(newSupplier).subscribe({
+        next: () => {
+          Swal.fire('Succès', 'Fournisseur ajouté avec succès', 'success');
+          this.supplierForm.reset();
+        },
+        error: (err) => {
+          console.error('Erreur lors de l’ajout du fournisseur', err);
+          Swal.fire('Erreur', 'Échec de l’ajout du fournisseur', 'error');
+        }
+      });
+    }
   }
 
   // updateSupplier(supplierData: any): void {
